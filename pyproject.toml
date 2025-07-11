@@ -1,0 +1,14 @@
+[project]
+name = "narrative-streamlit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastexcel>=0.14.0",
+    "plotly>=6.2.0",
+    "polars>=1.31.0",
+    "scipy>=1.16.0",
+    "statsmodels>=0.14.5",
+    "streamlit>=1.46.1",
+]
