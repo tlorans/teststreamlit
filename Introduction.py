@@ -158,7 +158,7 @@ So far, CIPs' modelling of the sensitivity factor $\\beta(s)$ has largely focuse
 """)
 
 st.write("""
-However, as demonstrated in our earlier examples, **physical damages** — such as those from extreme weather events, sea-level rise, or long-term temperature shifts — can have a **greater financial impact** on asset prices. In our first example, even with a lower discount factor, the scenario with **physical damages contributed more to the asset price** because it had a higher probability and occurred in a worse economic state.
+However, as demonstrated in our earlier examples, **physical damages** — such as those from extreme weather events, sea-level rise, or long-term temperature shifts — can have a **greater financial impact** on asset prices. In our first example, the scenario with **physical damages contributed more to the asset price** because it had a higher probability and occurred in a worse economic state.
 """)
 
 st.write("""
