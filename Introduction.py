@@ -158,39 +158,59 @@ So far, CIPs' modelling of the sensitivity factor $\\beta(s)$ has largely focuse
 """)
 
 st.write("""
-However, as demonstrated in our earlier examples, **physical damages** — such as those from extreme weather events, sea-level rise, or long-term temperature shifts — can have a **greater financial impact** on asset prices. In our first example, the scenario with **physical damages contributed more to the asset price** because it had a higher probability and occurred in a worse economic state.
+However, as demonstrated in our earlier examples, **physical damages** can have a **greater financial impact** on asset prices. In our first example, even with a lower discount factor, the scenario with **physical damages contributed more to the asset price** because it had a higher probability and occurred in a worse economic state.
 """)
 
 st.write("""
-Unlike transition risks, **physical damages are inherently tied to location**. Flooding, heatwaves, hurricanes, droughts — these events impact **specific regions**, and their severity depends on **where the physical assets or economic activities are located**.
+Unlike transition risks, **physical damages are inherently tied to location**. Flooding, heatwaves, hurricanes, droughts — these events impact **specific areas**, and their severity depends on **where the physical assets or economic activities are located**.
 """)
 
 st.write("""
-This leads us to a key insight:  
-**Valuing climate risk requires understanding where the asset is located.**
-This is the core motivation for **spatial finance**.
+Therefore, **valuing climate risk requires understanding where the asset is located.** The state-dependent cashflows should therefore be modelled as:
 """)
 
-st.write("""
-Spatial finance integrates **geographic data** (such as asset location, climate exposure maps, or hazard models) into the financial analysis. It allows investors to:
-""")
+st.latex(r"""
+         CF(s)_{t+1} = \beta(s_{lat,lon}) \cdot CF_{t+1}
+         """)
 
-st.markdown("""
-- Assess **exposure to physical climate hazards** at the asset level.
-- Understand how **regional climate impacts** translate into **cash flow risks**.
-- Compare **regional resilience** and **adaptation capacity**.
-- Incorporate **climate-adjusted risk premia** based on geographic vulnerability.
-""")
+st.write(r"""
+where $s_{lat,lon}$ represents the climate scenario conditioned on the asset's geographic location (latitude and longitude), and $\beta(s_{lat,lon})$ is the sensitivity factor that captures how the cash flow changes in response to the climate scenario at that specific location.
+         """)
+# Create hypothetical data: locations and their beta sensitivity
+geo_data = pd.DataFrame({
+    'lat': [14.6, 40.7, -33.9, 1.3, 35.7, 
+            19.4, 30.0, 51.5, -4.0, 23.1, 
+            -1.3, 13.7, 28.6, -22.9, 34.0,
+            31.2, 37.8, 39.9, 55.8, -17.7],
+    'lon': [-61.0, -74.0, 151.2, 103.8, 139.7, 
+            -99.1, 120.9, -0.1, 39.7, 113.3, 
+            36.8, 100.5, 77.2, -43.2, -6.8,
+            121.5, -122.4, 116.4, 37.6, 178.4],
+    'City': ['Caribbean', 'New York', 'Sydney', 'Singapore', 'Tokyo', 
+             'Mexico City', 'Shanghai', 'London', 'Dar es Salaam', 'Guangzhou', 
+             'Nairobi', 'Bangkok', 'Delhi', 'Rio de Janeiro', 'Tunis',
+             'Manila', 'San Francisco', 'Beijing', 'Moscow', 'Fiji'],
+    'Beta Sensitivity': [0.55, 0.2, 0.35, 0.4, 0.15,
+                         0.3, 0.45, 0.1, 0.5, 0.6,
+                         0.4, 0.5, 0.3, 0.5, 0.25,
+                         0.65, 0.2, 0.3, 0.1, 0.6]
+})
 
-st.write("""
-For example, imagine two identical factories generating the same baseline cash flows, but one is located in a coastal flood zone and the other inland. Their **exposure to sea-level rise and storm surges** is radically different, and so is the expected impact on future cash flows.
-""")
 
-st.write("""
-In the next section, [Modeling Physical Damages with Geo-Referenced Data](./Modeling_Physical_Damages_with_Geo_Referenced_Data), we will explore how to quantify these physical risks using location-based information, and how to integrate them into asset pricing models.
-""")
+fig = px.scatter_mapbox(
+    geo_data,
+    lat="lat",
+    lon="lon",
+    color="Beta Sensitivity",
+    size="Beta Sensitivity",
+    hover_name="City",
+    color_continuous_scale="YlOrRd",
+    size_max=30,
+    zoom=1,
+    height=500
+)
 
-st.write("""
-The key takeaway is that **climate risk is not only about transition policies**, but also about **where the asset is located in the physical world**.  
-Hence, understanding and pricing climate risk requires **spatially explicit models**.
-""")
+fig.update_layout(mapbox_style="carto-positron")
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
+st.plotly_chart(fig, use_container_width=True)
